@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <pthread.h>
+#include <stdlib.h>
 #include <stdio.h> 
 
 typedef struct s_args
@@ -20,5 +21,6 @@ typedef struct s_data
 }               t_data;
 
 int parse_args(int argc, char **argv, t_args *args);
+int	ft_atoi(const char *str);
 
 #endif

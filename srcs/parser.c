@@ -5,30 +5,32 @@ int is_number(char **argv)
     int i;
     int j;
 
-    i = 0;
-    while (argv[j])
+    i = 1;
+    while (argv[i])
     {
         j = 0;
-        while (argv[j][i])
+        while (argv[i][j])
         {
-            if (argv[j][i] < '0' || argv[j][i] > '9')
+            if (argv[i][j] < '0' || argv[i][j] > '9')
                 return (0);
-            i++;
+            j++;
         }
-        j++;
+        i++;
     }
     return (1);
 }
 
-int parse_args(int argc, char **argv, t_args *data)
+int parse_args(int argc, char **argv, t_args *args)
 {
-    if (argc == 5 && is_number(argv))
+    if (argc == 2 && is_number(argv))
     {
-        data->total_philos = ft_atoi(argv[1]);
-        data->time_die = ft_atoi(argv[2]);
-        data->time_eat = ft_atoi(argv[3]);
-        data->time_sleep = ft_atoi(argv[3]);
-        return (0);
+        args->total_philos = ft_atoi(argv[1]);
+        //args->time_die = ft_atoi(argv[2]);
+        //args->time_eat = ft_atoi(argv[3]);
+        //args->time_sleep = ft_atoi(argv[3]);
+        return (1);
     }
-    return (1);
+    else
+        write(1, "Error\n", 6);
+    return (0);
 }
