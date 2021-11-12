@@ -20,14 +20,14 @@ int is_number(char **argv)
     return (1);
 }
 
-int parse_args(int argc, char **argv, t_args *args)
+int parse_args(int argc, char **argv, t_global *global)
 {
-    if (argc == 2 && is_number(argv))
+    if (argc == 5 && is_number(argv))
     {
-        args->total_philos = ft_atoi(argv[1]);
-        //args->time_die = ft_atoi(argv[2]);
-        //args->time_eat = ft_atoi(argv[3]);
-        //args->time_sleep = ft_atoi(argv[3]);
+        global->table.total_philos = ft_atoi(argv[1]);
+        global->table.time_die = ft_atoi(argv[2]);
+        global->table.time_eat = ft_atoi(argv[3]);
+        global->table.time_sleep = ft_atoi(argv[3]);
         return (1);
     }
     else

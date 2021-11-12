@@ -1,5 +1,5 @@
 #include "../includes/philo.h"
-
+/*
 typedef enum estado = {
 	UNINITIALIZED,
 	EATING,
@@ -7,10 +7,6 @@ typedef enum estado = {
 	THINKING
 } t_estado;
 
-
-
-void *talk(void *mutex)
-{
 	t_estado e = EATING;
 
 	if  (e == EATING)
@@ -18,41 +14,60 @@ void *talk(void *mutex)
 		
 	}
 
-	pthread_mutex_lock(mutex);
+*/
 
-	printf("hola\n");
-	  
-	pthread_mutex_unlock(mutex);
-	return (NULL);
+void ft_eat(t_philo *philo)
+{
+	unsigned int right;
+
+	right = philo->id;
+
+	if (right == (unsigned int)philo->table->total_philos)
+		right = 0;
+
+	pthread_mutex_lock(&philo->fork);
+	pthread_mutex_lock(&philo[right + 1].fork);
+	printf("timestamp_in_ms %d is eating\n", philo->id);
+	pthread_mutex_unlock(&philo->fork);
+	pthread_mutex_unlock(&philo[right + 1].fork);
+
 }
 
-int create_threads(t_args *args, t_data *philos)
+void *start(void *data)
 {
-	pthread_mutex_t *mutex;
+	t_philo *philo;
+
+	philo = (t_philo*)data;
+
+	//if (philo->id % 2)
+	while (1)
+	{
+		ft_eat(philo);
+	}
+}
+
+int create_threads(t_global *global)
+{
 	int i;
 
 	i = 0;
-	//malloc
-	pthread_mutex_init(mutex, NULL);
-	while (i < args->total_philos)
+	while (i < global->table.total_philos)
 	{
-		if (pthread_create(&philos[i].thread, NULL, &talk, mutex) != 0)
+		global->philo[i].table = &global->table;
+		if (pthread_create(&global->philo[i].thread, NULL, start, &global->philo[i]) != 0)
 			return (0);
-		printf("thread %d has started\n", i);
 		i++;
 	}
 	i = 0;
-	while (i < args->total_philos)
+	while (i < global->table.total_philos)
 	{
-		if (pthread_join(&philos[i].thread, NULL) != 0)
+		if (pthread_join(global->philo[i].thread, NULL) != 0)
 			return (0);
-		printf("thread %d has finished\n", i);
 		i++;
 	}
-	pthread_mutex_destroy(mutex);
 	return (1);
 }
-
+/*
 int create_forks(t_args	*args, t_data *philos)
 {
 	int i;
@@ -67,18 +82,46 @@ int create_forks(t_args	*args, t_data *philos)
 	}
 	return (1);
 }
+*/
+int init_mutex(t_global *global)
+{
+	pthread_mutex_init(&global->table.write, NULL);
+	return (0);
+}
+
+int init_philos(t_global *global)
+{
+	int i;
+
+	i = 0;
+	init_mutex(global);
+	while (i < global->table.total_philos)
+	{
+		if (pthread_mutex_init(&global->philo[i].fork, NULL))
+			return (0);
+		global->philo[i].id = i + 1;
+		i++;
+	}
+	return (1);
+}
 
 int	main(int argc, char **argv)
 {
-	t_args	args;
-	t_data	philos;
+	t_global global;
 
-	if (!parse_args(argc, argv, &args))
+	if (!parse_args(argc, argv, &global))
 		return (1);
-	if (!create_forks(&args, &philos))
+
+	global.philo = malloc(sizeof(t_global) * ft_atoi(argv[1]));
+
+	if (!global.philo)
 		return (1);
-	if (!create_threads(&args, &philos))
+	
+	init_philos(&global);
+
+	if (!create_threads(&global))
 		return (1);
+	
 	printf("bien\n");
 	return (0);
 }
