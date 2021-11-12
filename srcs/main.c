@@ -26,21 +26,13 @@ void *talk(void *mutex)
 	return (NULL);
 }
 
-void init_philos(t_args *args)
-{
-	args->total_philos = -1;
-	args->time_die = -1;
-	args->time_eat = -1;
-	args->time_sleep = -1;
-}
-
 int create_threads(t_args *args, t_data *philos)
 {
 	pthread_mutex_t *mutex;
 	int i;
 
 	i = 0;
-	mutex = malloc(sizeof(pthread_mutex_t));
+	//malloc
 	pthread_mutex_init(mutex, NULL);
 	while (i < args->total_philos)
 	{
@@ -61,6 +53,21 @@ int create_threads(t_args *args, t_data *philos)
 	return (1);
 }
 
+int create_forks(t_args	*args, t_data *philos)
+{
+	int i;
+
+	i = 0;
+	philos->forks = malloc(args->total_philos * sizeof(pthread_mutex_t));
+	while (i < args->total_philos)
+	{
+		if (pthread_mutex_init(&philos->forks[i], NULL)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_args	args;
@@ -68,7 +75,8 @@ int	main(int argc, char **argv)
 
 	if (!parse_args(argc, argv, &args))
 		return (1);
-	init_philos(&args);
+	if (!create_forks(&args, &philos))
+		return (1);
 	if (!create_threads(&args, &philos))
 		return (1);
 	printf("bien\n");

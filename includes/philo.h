@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h> 
+#include <sys/time.h>
 
 typedef struct s_args
 {
@@ -18,6 +19,7 @@ typedef struct s_data
 {
     t_args      *philo;
     pthread_t   thread;
+    pthread_mutex_t *forks;
 }               t_data;
 
 int parse_args(int argc, char **argv, t_args *args);
