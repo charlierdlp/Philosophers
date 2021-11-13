@@ -32,5 +32,6 @@ typedef struct s_global
 
 int parse_args(int argc, char **argv, t_global *global);
 int	ft_atoi(const char *str);
+unsigned long	get_time_ms(void);
 
 #endif

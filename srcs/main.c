@@ -27,7 +27,7 @@ void ft_eat(t_philo *philo)
 
 	pthread_mutex_lock(&philo->fork);
 	pthread_mutex_lock(&philo[right + 1].fork);
-	printf("timestamp_in_ms %d is eating\n", philo->id);
+	printf("%lu %d is eating\n", get_time_ms(),philo->id);
 	pthread_mutex_unlock(&philo->fork);
 	pthread_mutex_unlock(&philo[right + 1].fork);
 
