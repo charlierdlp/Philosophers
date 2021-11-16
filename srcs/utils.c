@@ -1,16 +1,12 @@
 #include "../includes/philo.h"
 
-unsigned long	get_time_ms(void)
+uint64_t	get_time_ms(uint64_t reference)
 {
-	struct timeval time;
-	unsigned long time_ms;
-	unsigned long seconds_to_ms;
+	struct	timeval ti;
 
-	gettimeofday(&time, NULL);
-
-	seconds_to_ms = time.tv_sec * 1000;
-	time_ms = seconds_to_ms + time.tv_usec / 1000;
-	return (time_ms);
+	if (gettimeofday(&ti, NULL) == -1)
+		return (-1);
+	return(ti.tv_sec * 1000 + ti.tv_usec / 1000 - reference);
 }
 
 int	ft_atoi(const char *str)

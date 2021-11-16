@@ -26,10 +26,16 @@ void ft_eat(t_philo *philo)
 		right = 0;
 
 	pthread_mutex_lock(&philo->fork);
-	pthread_mutex_lock(&philo[right + 1].fork);
-	printf("%lu %d is eating\n", get_time_ms(),philo->id);
+	pthread_mutex_lock(&philo[right].fork);
+
+	pthread_mutex_lock(&philo->table->write);
+	printf("%llu %d is eating\n", get_time_ms(philo->table->current_time), philo->id);
+	pthread_mutex_unlock(&philo->table->write);
+
+	usleep(philo->table->time_eat);
+
 	pthread_mutex_unlock(&philo->fork);
-	pthread_mutex_unlock(&philo[right + 1].fork);
+	pthread_mutex_unlock(&philo[right].fork);
 
 }
 
@@ -39,7 +45,8 @@ void *start(void *data)
 
 	philo = (t_philo*)data;
 
-	//if (philo->id % 2)
+	if (philo->id % 2 == 0)
+		usleep(100);
 	while (1)
 	{
 		ft_eat(philo);
@@ -94,6 +101,7 @@ int init_philos(t_global *global)
 	int i;
 
 	i = 0;
+	global->table.current_time = get_time_ms(0);
 	init_mutex(global);
 	while (i < global->table.total_philos)
 	{
