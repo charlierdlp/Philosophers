@@ -14,6 +14,7 @@ typedef struct s_table
     int     time_die;
     int     time_eat;
     int     time_sleep;
+    t_philo	    *philo;
     pthread_mutex_t write;
 }               t_table;
 
@@ -25,11 +26,6 @@ typedef struct s_philo
     pthread_mutex_t fork;
 }               t_philo;
 
-typedef struct s_global
-{
-    t_table	table;
-    t_philo	*philo;
-}               t_global;
 
 int parse_args(int argc, char **argv, t_global *global);
 int	ft_atoi(const char *str);

@@ -46,29 +46,30 @@ void *start(void *data)
 	philo = (t_philo*)data;
 
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(1000);
+
 	while (1)
 	{
 		ft_eat(philo);
 	}
 }
 
-int create_threads(t_global *global)
+int create_threads(t_table *table)
 {
 	int i;
 
 	i = 0;
-	while (i < global->table.total_philos)
+	while (i < table->total_philos)
 	{
-		global->philo[i].table = &global->table;
-		if (pthread_create(&global->philo[i].thread, NULL, start, &global->philo[i]) != 0)
+		table->philo[i].table = table;
+		if (pthread_create(&table->philo[i].thread, NULL, start, &table->philo[i]) != 0)
 			return (0);
 		i++;
 	}
 	i = 0;
-	while (i < global->table.total_philos)
+	while (i < table->total_philos)
 	{
-		if (pthread_join(global->philo[i].thread, NULL) != 0)
+		if (pthread_join(table->philo[i].thread, NULL) != 0)
 			return (0);
 		i++;
 	}
@@ -90,10 +91,10 @@ int create_forks(t_args	*args, t_data *philos)
 	return (1);
 }
 */
-int init_mutex(t_global *global)
+int init_mutex(t_table *table)
 {
-	pthread_mutex_init(&global->table.write, NULL);
-	return (0);
+	if (pthread_mutex_init(&table->write, NULL) != 0)
+		return (0);
 }
 
 int init_philos(t_global *global)
@@ -101,11 +102,12 @@ int init_philos(t_global *global)
 	int i;
 
 	i = 0;
-	global->table.current_time = get_time_ms(0);
-	init_mutex(global);
-	while (i < global->table.total_philos)
+	table->current_time = get_time_ms(0);
+	init_mutex(table);
+
+	while (i < table->total_philos)
 	{
-		if (pthread_mutex_init(&global->philo[i].fork, NULL))
+		if (pthread_mutex_init(&s_table->philo[i].fork, NULL))
 			return (0);
 		global->philo[i].id = i + 1;
 		i++;
@@ -115,19 +117,19 @@ int init_philos(t_global *global)
 
 int	main(int argc, char **argv)
 {
-	t_global global;
+	t_table table;
 
-	if (!parse_args(argc, argv, &global))
+	if (!parse_args(argc, argv, &table))
 		return (1);
 
-	global.philo = malloc(sizeof(t_global) * ft_atoi(argv[1]));
+	table.philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
 
-	if (!global.philo)
+	if (!table.philo)
 		return (1);
 	
-	init_philos(&global);
+	init_philos(&table);
 
-	if (!create_threads(&global))
+	if (!create_threads(&table))
 		return (1);
 	
 	printf("bien\n");
