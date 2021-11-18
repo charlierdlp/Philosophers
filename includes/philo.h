@@ -7,6 +7,8 @@
 #include <stdio.h> 
 #include <sys/time.h>
 
+typedef struct s_philo	t_philo;
+
 typedef struct s_table
 {
     uint64_t    current_time;
@@ -27,7 +29,7 @@ typedef struct s_philo
 }               t_philo;
 
 
-int parse_args(int argc, char **argv, t_global *global);
+int parse_args(int argc, char **argv, t_table *table);
 int	ft_atoi(const char *str);
 uint64_t	get_time_ms(uint64_t reference);
 

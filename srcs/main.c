@@ -26,7 +26,14 @@ void ft_eat(t_philo *philo)
 		right = 0;
 
 	pthread_mutex_lock(&philo->fork);
+	pthread_mutex_lock(&philo->table->write);
+	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
+	pthread_mutex_unlock(&philo->table->write);
+
 	pthread_mutex_lock(&philo[right].fork);
+	pthread_mutex_lock(&philo->table->write);
+	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
+	pthread_mutex_unlock(&philo->table->write);
 
 	pthread_mutex_lock(&philo->table->write);
 	printf("%llu %d is eating\n", get_time_ms(philo->table->current_time), philo->id);
@@ -95,9 +102,10 @@ int init_mutex(t_table *table)
 {
 	if (pthread_mutex_init(&table->write, NULL) != 0)
 		return (0);
+	return (1);
 }
 
-int init_philos(t_global *global)
+int init_philos(t_table *table)
 {
 	int i;
 
@@ -107,9 +115,9 @@ int init_philos(t_global *global)
 
 	while (i < table->total_philos)
 	{
-		if (pthread_mutex_init(&s_table->philo[i].fork, NULL))
+		if (pthread_mutex_init(&table->philo[i].fork, NULL))
 			return (0);
-		global->philo[i].id = i + 1;
+		table->philo[i].id = i + 1;
 		i++;
 	}
 	return (1);
