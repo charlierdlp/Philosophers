@@ -1,12 +1,25 @@
 #include "../includes/philo.h"
 
-uint64_t	get_time_ms(uint64_t reference)
+uint64_t	get_time_ms(uint64_t measure)
 {
-	struct	timeval ti;
+	struct timeval time;
+	unsigned long time_ms;
+	unsigned long seconds_to_ms;
 
-	if (gettimeofday(&ti, NULL) == -1)
-		return (-1);
-	return(ti.tv_sec * 1000 + ti.tv_usec / 1000 - reference);
+	gettimeofday(&time, NULL);
+
+	seconds_to_ms = time.tv_sec * 1000;
+	time_ms = seconds_to_ms + time.tv_usec / 1000;
+	return (time_ms - measure);
+}
+
+void	ft_usleep(uint64_t time_in_ms)
+{
+	uint64_t			start_time;
+
+	start_time = get_time_ms(0);
+	while ((get_time_ms(0) - start_time) < time_in_ms)
+		usleep(100);
 }
 
 int	ft_atoi(const char *str)

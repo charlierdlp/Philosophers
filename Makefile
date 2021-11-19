@@ -1,8 +1,8 @@
-   SRCS 	= srcs/main.c srcs/parser.c srcs/utils.c
+   SRCS 	= srcs/main.c srcs/parser.c srcs/utils.c srcs/init.c
 OBJS	= ${SRCS:.c=.o}
 NAME	= philo
 GCC		= gcc
-RM		= rm -f
+RM		= rm -rf
 CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
 
 ${NAME}:	${OBJS}

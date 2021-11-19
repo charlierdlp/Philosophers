@@ -30,7 +30,7 @@ void ft_eat(t_philo *philo)
 	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
 	pthread_mutex_unlock(&philo->table->write);
 
-	pthread_mutex_lock(&philo[right].fork);
+	pthread_mutex_lock(&philo->table->philo[right].fork);
 	pthread_mutex_lock(&philo->table->write);
 	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
 	pthread_mutex_unlock(&philo->table->write);
@@ -39,11 +39,27 @@ void ft_eat(t_philo *philo)
 	printf("%llu %d is eating\n", get_time_ms(philo->table->current_time), philo->id);
 	pthread_mutex_unlock(&philo->table->write);
 
-	usleep(philo->table->time_eat);
+	ft_usleep(philo->table->time_eat);
 
 	pthread_mutex_unlock(&philo->fork);
-	pthread_mutex_unlock(&philo[right].fork);
+	pthread_mutex_unlock(&philo->table->philo[right].fork);
 
+}
+
+void ft_sleep(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->write);
+	printf("%llu %d is sleeping\n", get_time_ms(philo->table->current_time), philo->id);
+	pthread_mutex_unlock(&philo->table->write);
+
+	ft_usleep(philo->table->time_sleep);
+}
+
+void ft_think(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->write);
+	printf("%llu %d is thinking\n", get_time_ms(philo->table->current_time), philo->id);
+	pthread_mutex_unlock(&philo->table->write);
 }
 
 void *start(void *data)
@@ -58,30 +74,11 @@ void *start(void *data)
 	while (1)
 	{
 		ft_eat(philo);
+		ft_sleep(philo);
+		ft_think(philo);
 	}
 }
 
-int create_threads(t_table *table)
-{
-	int i;
-
-	i = 0;
-	while (i < table->total_philos)
-	{
-		table->philo[i].table = table;
-		if (pthread_create(&table->philo[i].thread, NULL, start, &table->philo[i]) != 0)
-			return (0);
-		i++;
-	}
-	i = 0;
-	while (i < table->total_philos)
-	{
-		if (pthread_join(table->philo[i].thread, NULL) != 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 /*
 int create_forks(t_args	*args, t_data *philos)
 {
@@ -98,30 +95,6 @@ int create_forks(t_args	*args, t_data *philos)
 	return (1);
 }
 */
-int init_mutex(t_table *table)
-{
-	if (pthread_mutex_init(&table->write, NULL) != 0)
-		return (0);
-	return (1);
-}
-
-int init_philos(t_table *table)
-{
-	int i;
-
-	i = 0;
-	table->current_time = get_time_ms(0);
-	init_mutex(table);
-
-	while (i < table->total_philos)
-	{
-		if (pthread_mutex_init(&table->philo[i].fork, NULL))
-			return (0);
-		table->philo[i].id = i + 1;
-		i++;
-	}
-	return (1);
-}
 
 int	main(int argc, char **argv)
 {
@@ -139,7 +112,6 @@ int	main(int argc, char **argv)
 
 	if (!create_threads(&table))
 		return (1);
-	
-	printf("bien\n");
+
 	return (0);
 }
