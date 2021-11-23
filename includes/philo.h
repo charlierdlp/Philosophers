@@ -11,7 +11,7 @@ typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
-    uint64_t    current_time;
+    uint64_t    init_time;
 
     int     total_philos;
     int     time_die;
@@ -29,13 +29,24 @@ typedef struct s_philo
     t_table     *table;
 
     int         id;
+    int     last_meal;
 
     pthread_t   thread;
     pthread_mutex_t fork;
 
 }               t_philo;
 
+typedef enum state {
+	EATING,
+	SLEEPING,
+	THINKING,
+    FORKING,
+    DEAD
+} t_state;
+
 void *start(void *data);
+int ft_print(t_philo *philo, t_state);
+void death_checker(t_table *table);
 int init_philos(t_table *table);
 int init_mutex(t_table *table);
 int create_threads(t_table *table);

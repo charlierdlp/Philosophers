@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 20:23:14 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/19 20:24:17 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/11/23 18:37:35 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int create_threads(t_table *table)
 		pthread_create(&table->philo[i].thread, NULL, start, &table->philo[i]);
 		i++;
 	}
+	death_checker(table);
 	i = 0;
 	while (i < table->total_philos)
 	{
@@ -43,7 +44,7 @@ int init_philos(t_table *table)
 	int i;
 
 	i = 0;
-	table->current_time = get_time_ms(0);
+	table->init_time = get_time_ms(0);
 	init_mutex(table);
 
 	while (i < table->total_philos)

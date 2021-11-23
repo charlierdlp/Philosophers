@@ -1,12 +1,5 @@
 #include "../includes/philo.h"
 /*
-typedef enum estado = {
-	UNINITIALIZED,
-	EATING,
-	SLEEPING,
-	THINKING
-} t_estado;
-
 	t_estado e = EATING;
 
 	if  (e == EATING)
@@ -26,18 +19,14 @@ void ft_eat(t_philo *philo)
 		right = 0;
 
 	pthread_mutex_lock(&philo->fork);
-	pthread_mutex_lock(&philo->table->write);
-	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
-	pthread_mutex_unlock(&philo->table->write);
+	ft_print(philo, FORKING);
 
 	pthread_mutex_lock(&philo->table->philo[right].fork);
-	pthread_mutex_lock(&philo->table->write);
-	printf("%llu %d has taken a fork\n", get_time_ms(philo->table->current_time), philo->id);
-	pthread_mutex_unlock(&philo->table->write);
+	ft_print(philo, FORKING);
 
-	pthread_mutex_lock(&philo->table->write);
-	printf("%llu %d is eating\n", get_time_ms(philo->table->current_time), philo->id);
-	pthread_mutex_unlock(&philo->table->write);
+	philo->last_meal = get_time_ms(philo->table->init_time);
+
+	ft_print(philo, EATING);
 
 	ft_usleep(philo->table->time_eat);
 
@@ -48,18 +37,9 @@ void ft_eat(t_philo *philo)
 
 void ft_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->write);
-	printf("%llu %d is sleeping\n", get_time_ms(philo->table->current_time), philo->id);
-	pthread_mutex_unlock(&philo->table->write);
+	ft_print(philo, SLEEPING);
 
 	ft_usleep(philo->table->time_sleep);
-}
-
-void ft_think(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->table->write);
-	printf("%llu %d is thinking\n", get_time_ms(philo->table->current_time), philo->id);
-	pthread_mutex_unlock(&philo->table->write);
 }
 
 void *start(void *data)
@@ -75,7 +55,7 @@ void *start(void *data)
 	{
 		ft_eat(philo);
 		ft_sleep(philo);
-		ft_think(philo);
+		ft_print(philo, THINKING);
 	}
 }
 
