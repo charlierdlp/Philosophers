@@ -17,6 +17,7 @@ typedef struct s_table
     int     time_die;
     int     time_eat;
     int     time_sleep;
+    int     alive;
 
     t_philo	    *philo;
 

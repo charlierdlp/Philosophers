@@ -1,17 +1,8 @@
 #include "../includes/philo.h"
-/*
-	t_estado e = EATING;
 
-	if  (e == EATING)
-	{
-		
-	}
-
-*/
-
-void ft_eat(t_philo *philo)
+void	ft_eat(t_philo *philo)
 {
-	unsigned int right;
+	unsigned int	right;
 
 	right = philo->id;
 
@@ -35,50 +26,34 @@ void ft_eat(t_philo *philo)
 
 }
 
-void ft_sleep(t_philo *philo)
+void	ft_sleep(t_philo *philo)
 {
 	ft_print(philo, SLEEPING);
-
 	ft_usleep(philo->table->time_sleep);
 }
 
-void *start(void *data)
+void	*start(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo*)data;
 
 	if (philo->id % 2 == 0)
 		usleep(1000);
 
-	while (1)
+	printf("status:%d\n", philo->table->alive);
+	while (philo->table->alive)
 	{
 		ft_eat(philo);
 		ft_sleep(philo);
 		ft_print(philo, THINKING);
 	}
-}
-
-/*
-int create_forks(t_args	*args, t_data *philos)
-{
-	int i;
-
-	i = 0;
-	philos->forks = malloc(args->total_philos * sizeof(pthread_mutex_t));
-	while (i < args->total_philos)
-	{
-		if (pthread_mutex_init(&philos->forks[i], NULL)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-*/
+	return (NULL);
+} 
 
 int	main(int argc, char **argv)
 {
-	t_table table;
+	t_table	table;
 
 	if (!parse_args(argc, argv, &table))
 		return (1);
@@ -87,7 +62,7 @@ int	main(int argc, char **argv)
 
 	if (!table.philo)
 		return (1);
-	
+
 	init_philos(&table);
 
 	if (!create_threads(&table))

@@ -6,15 +6,15 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 20:23:14 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/23 18:37:35 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/11/25 19:05:07 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int create_threads(t_table *table)
+int	create_threads(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < table->total_philos)
@@ -33,20 +33,20 @@ int create_threads(t_table *table)
 	return (1);
 }
 
-int init_mutex(t_table *table)
+int	init_mutex(t_table *table)
 {
 	pthread_mutex_init(&table->write, NULL);
 	return (1);
 }
 
-int init_philos(t_table *table)
+int	init_philos(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	table->init_time = get_time_ms(0);
+	table->alive = 1;
 	init_mutex(table);
-
 	while (i < table->total_philos)
 	{
 		pthread_mutex_init(&table->philo[i].fork, NULL);
