@@ -25,7 +25,7 @@ int	create_threads(t_table *table)
 	}
 	death_checker(table);
 	i = 0;
-	while (i < table->total_philos)
+	while (i < table->total_philos && table->alive == 1)
 	{
 		pthread_join(table->philo[i].thread, NULL);
 		i++;

@@ -27,6 +27,7 @@ void	death_checker(t_table *table)
 			{
 				ft_print(table->philo, DEAD);
 				table->alive = 0;
+				break ;
 			}
 			i++;
 		}

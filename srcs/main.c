@@ -41,7 +41,6 @@ void	*start(void *data)
 	if (philo->id % 2 == 0)
 		usleep(1000);
 
-	printf("status:%d\n", philo->table->alive);
 	while (philo->table->alive)
 	{
 		ft_eat(philo);
@@ -68,5 +67,6 @@ int	main(int argc, char **argv)
 	if (!create_threads(&table))
 		return (1);
 
+	free(table.philo);
 	return (0);
 }

@@ -16,7 +16,7 @@ int	ft_print(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&philo->table->write);
 	if (!philo->table->alive)
-		return (0);
+		return (1);
 	if (state == EATING)
 		printf("%llu %d is eating\n",
 			get_time_ms(philo->table->init_time), philo->id);
