@@ -1,39 +1,35 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <unistd.h>
-#include <pthread.h>
-#include <stdlib.h>
-#include <stdio.h> 
-#include <sys/time.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <stdlib.h>
+# include <stdio.h> 
+# include <sys/time.h>
 
 typedef struct s_philo	t_philo;
 
 typedef struct s_table
 {
-    uint64_t    init_time;
-
-    int     total_philos;
-    int     time_die;
-    int     time_eat;
-    int     time_sleep;
-    int     alive;
-
-    t_philo	    *philo;
-
-    pthread_mutex_t write;
-
-}               t_table;
+	uint64_t			init_time;
+	int					total_philos;
+	int					time_die;
+	int					time_eat;
+	int					time_sleep;
+	int					alive;
+	t_philo				*philo;
+	pthread_mutex_t		write;
+}				t_table;
 
 typedef struct s_philo
 {
-    t_table     *table;
+	t_table     *table;
 
-    int         id;
-    int     last_meal;
+	int         id;
+	int     last_meal;
 
-    pthread_t   thread;
-    pthread_mutex_t fork;
+	pthread_t   thread;
+	pthread_mutex_t fork;
 
 }               t_philo;
 
@@ -41,8 +37,8 @@ typedef enum state {
 	EATING,
 	SLEEPING,
 	THINKING,
-    FORKING,
-    DEAD
+	FORKING,
+	DEAD
 } t_state;
 
 void *start(void *data);
