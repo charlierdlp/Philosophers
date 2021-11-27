@@ -29,7 +29,12 @@ int	is_number(char **argv)
 		}
 		i++;
 	}
-	return (1);
+	if (ft_atoi(argv[1]) == 0)
+		return (0);
+	else if (ft_atoi(argv[1]) > 200)
+		return (0);
+	else
+		return (1);
 }
 
 int	parse_args(int argc, char **argv, t_table *table)

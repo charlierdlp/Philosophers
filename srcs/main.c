@@ -21,6 +21,12 @@ void	ft_eat(t_philo *philo)
 		right = 0;
 	pthread_mutex_lock(&philo->fork);
 	ft_print(philo, FORKING);
+	if (philo->table->total_philos == 1)
+	{
+		ft_usleep(philo->table->time_die);
+		ft_print(philo, DEAD);
+		philo->table->alive = 0;
+	}
 	pthread_mutex_lock(&philo->table->philo[right].fork);
 	ft_print(philo, FORKING);
 	philo->last_meal = get_time_ms(philo->table->init_time);
