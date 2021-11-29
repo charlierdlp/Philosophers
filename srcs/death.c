@@ -32,6 +32,8 @@ void	death_checker(t_table *table)
 			}
 			i++;
 		}
+		if (table->all_full == 1)
+			break ;
 		usleep(100);
 	}
 }

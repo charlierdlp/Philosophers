@@ -39,12 +39,16 @@ int	is_number(char **argv)
 
 int	parse_args(int argc, char **argv, t_table *table)
 {
-	if (argc == 5 && is_number(argv))
+	if ((argc == 5 || argc == 6) && is_number(argv))
 	{
 		table->total_philos = ft_atoi(argv[1]);
 		table->time_die = ft_atoi(argv[2]);
 		table->time_eat = ft_atoi(argv[3]);
-		table->time_sleep = ft_atoi(argv[3]);
+		table->time_sleep = ft_atoi(argv[4]);
+		table->max_meals = -1;
+		table->all_full = 0;
+		if (argc == 6)
+			table->max_meals = ft_atoi(argv[5]);
 		return (1);
 	}
 	else

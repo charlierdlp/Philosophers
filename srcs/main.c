@@ -30,6 +30,7 @@ void	ft_eat(t_philo *philo)
 	pthread_mutex_lock(&philo->table->philo[right].fork);
 	ft_print(philo, FORKING);
 	philo->last_meal = get_time_ms(philo->table->init_time);
+	philo->count_meal += 1;
 	ft_print(philo, EATING);
 	ft_usleep(philo->table->time_eat);
 	pthread_mutex_unlock(&philo->fork);
@@ -52,10 +53,15 @@ void	*start(void *data)
 	while (philo->table->alive)
 	{
 		ft_eat(philo);
+		if (philo->count_meal == philo->table->max_meals)
+		{
+			philo->table->all_full = 1;
+			break ;
+		}
 		ft_sleep(philo);
 		ft_print(philo, THINKING);
 	}
-	return (NULL);
+	return (0);
 }
 
 int	main(int argc, char **argv)

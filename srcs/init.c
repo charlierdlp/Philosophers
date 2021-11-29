@@ -46,6 +46,7 @@ int	init_philos(t_table *table)
 		pthread_mutex_init(&table->philo[i].fork, NULL);
 		table->philo[i].id = i + 1;
 		table->philo[i].last_meal = 0;
+		table->philo[i].count_meal = 0;
 		i++;
 	}
 	return (1);
