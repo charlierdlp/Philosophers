@@ -30,6 +30,13 @@ int	create_threads(t_table *table)
 		pthread_join(table->philo[i].thread, NULL);
 		i++;
 	}
+	i = 0;
+	while (i < table->total_philos)
+	{
+		pthread_detach(table->philo[i].thread);
+		pthread_mutex_destroy(&table->philo[i].fork);
+		i++;
+	}
 	return (1);
 }
 
