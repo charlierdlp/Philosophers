@@ -3,7 +3,7 @@ OBJS	= ${SRCS:.c=.o}
 NAME	= philo
 GCC		= gcc
 RM		= rm -rf
-CFLAGS	= -Wall -Werror -Wextra -g3 -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
 
 ${NAME}:	${OBJS}
 					${CC} ${CFLAGS} ${SRCS} -o philo

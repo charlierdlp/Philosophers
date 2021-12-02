@@ -24,7 +24,7 @@ void	death_checker(t_table *table)
 		{
 			time_death = get_time_ms(table->init_time) - table->philo[i].last_meal;
 
-			if (time_death >= table->time_die)											// no pongo = para aprovechar el margen de error de 10 ms
+			if (time_death >= table->time_die)
 			{
 				ft_print(table->philo, DEAD);
 				table->alive = 0;
@@ -32,7 +32,7 @@ void	death_checker(t_table *table)
 			}
 			i++;
 		}
-		if (table->all_full == 1)
+		if (table->all_full == 1 || table->alive == 0)
 			break ;
 		usleep(100);
 	}

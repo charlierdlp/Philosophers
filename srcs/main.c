@@ -76,6 +76,6 @@ int	main(int argc, char **argv)
 	init_philos(&table);
 	create_threads(&table);
 	free(table.philo);
-	system("leaks philo");
+	pthread_mutex_destroy(&table.write);
 	return (0);
 }
