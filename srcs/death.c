@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 18:33:09 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/26 19:15:16 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:48:34 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	death_checker(t_table *table)
 		i = 0;
 		while (i < table->total_philos)
 		{
-			time_death = get_time_ms(table->init_time) - table->philo[i].last_meal;
-
+			time_death = get_time_ms(table->init_time)
+				- table->philo[i].last_meal;
 			if (time_death >= table->time_die)
 			{
 				ft_print(table->philo, DEAD);

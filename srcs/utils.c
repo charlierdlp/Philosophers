@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 18:05:04 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/26 19:06:21 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:49:50 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 uint64_t	get_time_ms(uint64_t measure)
 {
-	struct timeval time;
-	unsigned long time_ms;
-	unsigned long seconds_to_ms;
+	struct timeval	time;
+	unsigned long	time_ms;
+	unsigned long	seconds_to_ms;
 
 	gettimeofday(&time, NULL);
-
 	seconds_to_ms = time.tv_sec * 1000;
 	time_ms = seconds_to_ms + time.tv_usec / 1000;
 	return (time_ms - measure);

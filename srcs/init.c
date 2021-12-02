@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 20:23:14 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/26 19:04:44 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:48:59 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_threads(t_table *table)
 	}
 	death_checker(table);
 	i = 0;
-	while (i < table->total_philos && table->alive == 1)
+	while (i < table->total_philos)
 	{
 		pthread_join(table->philo[i].thread, NULL);
 		i++;
@@ -33,10 +33,10 @@ int	create_threads(t_table *table)
 	i = 0;
 	while (i < table->total_philos)
 	{
-		pthread_detach(table->philo[i].thread);
 		pthread_mutex_destroy(&table->philo[i].fork);
 		i++;
 	}
+	pthread_mutex_destroy(&table->write);
 	return (1);
 }
 

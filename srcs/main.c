@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:58:50 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/26 19:12:08 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/02 19:40:16 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,5 @@ int	main(int argc, char **argv)
 	init_philos(&table);
 	create_threads(&table);
 	free(table.philo);
-	pthread_mutex_destroy(&table.write);
 	return (0);
 }
