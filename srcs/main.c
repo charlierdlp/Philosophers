@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 17:58:50 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/12/02 19:40:16 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/03 19:47:54 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_eat(t_philo *philo)
 		ft_usleep(philo->table->time_die);
 		ft_print(philo, DEAD);
 		philo->table->alive = 0;
+		pthread_mutex_unlock(&philo->fork);
 	}
 	pthread_mutex_lock(&philo->table->philo[right].fork);
 	ft_print(philo, FORKING);

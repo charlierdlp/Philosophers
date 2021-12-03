@@ -1,7 +1,7 @@
    SRCS 	= srcs/main.c srcs/parser.c srcs/utils.c srcs/init.c srcs/death.c srcs/print_state.c
 OBJS	= ${SRCS:.c=.o}
 NAME	= philo
-GCC		= gcc
+CC		= gcc
 RM		= rm -rf
 CFLAGS	= -Wall -Werror -Wextra #-g3 -fsanitize=address
 
