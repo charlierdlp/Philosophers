@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 19:05:45 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/11/25 19:06:20 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/08 13:13:11 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ int	parse_args(int argc, char **argv, t_table *table)
 		table->time_die = ft_atoi(argv[2]);
 		table->time_eat = ft_atoi(argv[3]);
 		table->time_sleep = ft_atoi(argv[4]);
+		if (table->time_die < 60 || table->time_eat < 60 || table->time_sleep < 60)
+		{
+			write(1, "Error\n", 6);
+			return (0);
+		}
 		table->max_meals = -1;
 		table->all_full = 0;
 		if (argc == 6)

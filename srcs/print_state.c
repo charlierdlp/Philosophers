@@ -6,7 +6,7 @@
 /*   By: cruiz-de <cruiz-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 19:30:34 by cruiz-de          #+#    #+#             */
-/*   Updated: 2021/12/02 19:47:25 by cruiz-de         ###   ########.fr       */
+/*   Updated: 2021/12/08 13:00:32 by cruiz-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_print(t_philo *philo, t_state state)
 {
+		pthread_mutex_lock(&philo->table->write);
 	if (philo->table->alive)
 	{
-		pthread_mutex_lock(&philo->table->write);
 		if (state == EATING)
 			printf("%llu %d is eating\n",
 				get_time_ms(philo->table->init_time), philo->id);
@@ -32,7 +32,7 @@ int	ft_print(t_philo *philo, t_state state)
 		else if (state == DEAD)
 			printf("%llu %d has died\n",
 				get_time_ms(philo->table->init_time), philo->table->philo->id);
-		pthread_mutex_unlock(&philo->table->write);
 	}
+		pthread_mutex_unlock(&philo->table->write);
 	return (0);
 }
